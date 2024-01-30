@@ -16,27 +16,27 @@ function Trade(Rounds, HowToChooseSeller) {
             if (HowToChooseSeller == "Random") {
                 seller = GetRandomSeller();
             } else {
-                seller = Sellers.sort((a, b) => a.Price - b.Price)[0];
+                seller = Sellers.sort((a, b) => a.Price - b.Price);
+                seller = seller.filter(x => x.Visited == false)
             }
+                // seller = seller.filter(x => x.Transactions <= 10)
+                seller = seller[0]
+                // if (seller && seller.Price <= buyer.MaximumPayable && buyer.Transactions <= 10 && seller.Transactions <= 10) {
+                if (seller && seller.Price <= buyer.MaximumPayable) {
 
-
-            if (seller.Price <= buyer.MaximumPayable) {
                 // successful transaction
                 buyer.CompleteTransaction(true, seller.Price);
                 seller.CompleteTransaction(true);
-
                 Transactions++;
 
-            } else {
-                // transaction not successful
-                seller.CompleteTransaction(false);
-                buyer.CompleteTransaction(false);
             }
         });
-
         Sellers.forEach(seller => {
-            if (!seller.Visited) seller.AdjustPrice(false); //if the seller was not visited, adjust price downwards
+            seller.AdjustPrice(seller.Visited); //if the seller was not visited, adjust price downwards
             seller.SummedPrices += seller.Price;
+        });
+        Sellers.forEach(seller => {
+            seller.Visited = false
         });
     }
 }

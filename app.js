@@ -29,10 +29,6 @@ function DisplayOutput() {
     StatsTbody.innerHTML = `
         <tr>
             <td>${numberWithCommas(Transactions)}</td>
-            <td>${numberWithCommas(Math.round(TotalProfit * 100 / TotalSpent))}%</td>
-            <td>${numberWithCommas(GetAverageFirstPrice())}</td>
-            <td>${numberWithCommas(GetMedianFirstPrice())}</td>
-            <td>${numberWithCommas(GetAveragePrice())}</td>
             <td>${numberWithCommas(GetMedianPrice())}</td>
         </tr>
     `;
@@ -86,10 +82,8 @@ function ChooseBuyersToShow() {
     for (let i = 0; i < BuyersToDisplay.length; i++) BuyersToDisplay[i].Position = i + 1; // give them positions
 
     if (Buyers.length > 10) {
-        let FirstFive = Buyers.slice(0, 5);
+        let FirstFive = Buyers.slice(0, 10); // first 10
         BuyersToDisplay = FirstFive;
-        let LastFive = Buyers.slice(Buyers.length - 5);
-        LastFive.forEach(item => BuyersToDisplay.push(item));
     }
 
     return BuyersToDisplay;
@@ -120,6 +114,8 @@ function MakeGraph() {
     
     let CategoryNames = [];
     let CategoriesData = [];
+    let sellerDensityData = [];
+    for (let i = 0; i < 10; i++) sellerDensityData.push(0);
 
     for (let i = 0; i < 10; i++) CategoriesData.push(0);
 
@@ -134,9 +130,10 @@ function MakeGraph() {
 
     SellersChartCanvas.width = screen.width * 0.8;
     SellersChartCanvas.height = screen.height * 0.7;
-
+    // DoubleChartCanvas.width = screen.width * 0.8;
+    // DoubleChartCanvas.height = screen.height * 0.7;
     let ctx = SellersChartCanvas;
-
+    // let ctx2 = DoubleChartCanvas;
     let SellersChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -178,4 +175,30 @@ function MakeGraph() {
             responsive: false
         }
     });
+
+    // let DoubleChart = new Chart(ctx2, {
+    //     type: 'line',
+    //     data: {
+    //         labels: CategoryNames,
+    //         datasets: [{
+    //             label: 'Sellers',
+    //             data: sellerDensityData,
+    //             borderWidth: 1
+    //         }, {
+    //             label: 'Buyers',
+    //             data: sellerDensityData,
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         scales: {
+    //             yAxes: [{
+    //                 ticks: {
+    //                     beginAtZero: true
+    //                 }
+    //             }]
+    //         },
+    //         responsive: false
+    //     }
+    // });
 }

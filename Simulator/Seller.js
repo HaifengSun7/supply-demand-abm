@@ -13,8 +13,8 @@ class Seller {
 
     // how much the seller will adjust price depending on how the market is
     PriceAdjustmentFactor = {
-        Up: (21/20),
-        Down: (20/21)
+        Up: (1.05),
+        Down: (0.95)
     }
 
     constructor() {
@@ -40,7 +40,6 @@ class Seller {
             this.Revenue += this.Price;
             this.Profit += this.Price - this.MinimumAcceptable; 
         }
-        this.AdjustPrice(SuccessfulSale);
         this.Visited = true;
     }
 

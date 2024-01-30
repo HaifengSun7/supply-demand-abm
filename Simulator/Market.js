@@ -29,11 +29,26 @@ function GetAverageFirstPrice() {
     return Math.round(Total / Sellers.length);
 }
 
-function GetAveragePrice() {
+function GetAverageProductionCost() {
     let Total = 0;
-    Sellers.forEach(seller => Total += seller.Price);
+    Sellers.forEach(seller => Total += seller.MinimumAcceptable);
 
     return Math.round(Total / Sellers.length);
+}
+
+function GetAverageAcceptablePrice() {
+    let Total = 0;
+    Buyers.forEach(buyer => Total += buyer.MaximumPayable);
+
+    return Math.round(Total / Buyers.length);
+}
+
+function GetPrice() {
+    let Total = 0;
+    seller = Sellers.sort((a, b) => a.Price - b.Price);
+    seller = seller.slice(0, 5)
+    seller.forEach(s => Total += s.Price);
+    return Math.round(Total / seller.length);
 }
 
 function GetMedianFirstPrice() {

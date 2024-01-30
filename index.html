@@ -85,27 +85,22 @@
                 <table class="table" style="color: white; width: 90%;">
                     <tr style="color:bisque">
                         <th>Number of Transactions</th>
-                        <th>Overall Profit Margin</th>
-                        <th>Average First Price</th>
-                        <th>Median First Price</th>
-                        <th>Average Final Price</th>
                         <th>Median Final Price</th>
                     </tr>
                     <tbody id="StatsTbody"></tbody>
                 </table>
             </div>
             <br><br>
-
+            <!-- <canvas id="DoubleChartCanvas" width="auto" height="auto"></canvas> -->
             
             <h5>Sellers:</h5>
 
             <small style="color: white"><i>Sort By:</i></small>
             <select name="SellersDisplayFilter" id="SellersDisplayFilter" class="form-control"
                 style="width:auto; background-color:black; color: white">
+                <option value="Price">Final Price</option>
                 <option value="MinimumAcceptable">Production Cost</option>
                 <option value="FirstPrice">First Price</option>
-                <option value="Price">Final Price</option>
-                <option value="SummedPrices">Average Price</option>
                 <option value="Transactions">Transactions Accepted</option>
                 <option value="Revenue">Revenue</option>
                 <option value="Profit">Profit</option>
