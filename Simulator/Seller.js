@@ -13,7 +13,7 @@ class Seller {
 
     // how much the seller will adjust price depending on how the market is
     PriceAdjustmentFactor = {
-        Up: (1.05),
+        Up: (1.00),
         Down: (0.95)
     }
 
@@ -43,10 +43,18 @@ class Seller {
         this.Visited = true;
     }
 
+    
+
     static GetRandomPrice(ProductionCost) {
-        return Math.round(ProductionCost * (1 + Math.random())); // selling price must be above cost
+        return getRandomInt(ProductionCost, ProductionCost * 2); // selling price must be above cost
     }
     static GetRandomCost() {
-        return Math.round(Math.random() * 100) + 10;
+        return getRandomInt(0, 100);
     }
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -17,6 +17,11 @@ class Buyer {
     }
 
     static GetRandomAmount() {
-        return Math.round(Math.random() * 150);
+        return getRandomInt(0, 150);
     }
+}
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
