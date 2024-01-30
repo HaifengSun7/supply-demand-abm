@@ -4,6 +4,7 @@ let NumberOfBuyers, NumberOfSellers;
 let Buyers = [];
 let Sellers = [];
 let Transactions = 0;
+let lastRoundPrices = [];
 
 self.importScripts("Buyer.js", "Seller.js");
 
@@ -23,12 +24,13 @@ function Trade(Rounds, HowToChooseSeller) {
                 seller = seller[0]
                 // if (seller && seller.Price <= buyer.MaximumPayable && buyer.Transactions <= 10 && seller.Transactions <= 10) {
                 if (seller && seller.Price <= buyer.MaximumPayable) {
-
+                if (Round == Rounds - 1){
+                        lastRoundPrices.push(seller.Price)
+                    }
                 // successful transaction
                 buyer.CompleteTransaction(true, seller.Price);
                 seller.CompleteTransaction(true);
                 Transactions++;
-
             }
         });
         Sellers.forEach(seller => {
@@ -38,6 +40,7 @@ function Trade(Rounds, HowToChooseSeller) {
         Sellers.forEach(seller => {
             seller.Visited = false
         });
+        shuffle(Buyers);
     }
 }
 
@@ -57,7 +60,6 @@ onmessage = function (e) {
     const NumberOfSellers = e.data.NumberOfSellers;
     const HowToChooseSeller = e.data.HowToChooseSeller;
     const RoundsOfTrading = e.data.RoundsOfTrading;
-
     CreateTraders(NumberOfBuyers, NumberOfSellers)
 
     Trade(RoundsOfTrading, HowToChooseSeller);
@@ -65,6 +67,25 @@ onmessage = function (e) {
     postMessage({
         Sellers: Sellers,
         Buyers: Buyers,
-        Transactions: Transactions
+        Transactions: Transactions,
+        lastRoundPrices: lastRoundPrices
     });
 }
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }

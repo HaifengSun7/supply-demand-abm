@@ -46,7 +46,7 @@ function GetAverageAcceptablePrice() {
 function GetPrice() {
     let Total = 0;
     seller = Sellers.sort((a, b) => a.Price - b.Price);
-    seller = seller.slice(0, 5)
+    seller = seller.slice(0, 10)
     seller.forEach(s => Total += s.Price);
     return Math.round(Total / seller.length);
 }
@@ -70,6 +70,14 @@ function GetMedianPrice() {
 
     return Math.round(Median);
 }
+
+function GetLastRoundAveragePrice() {
+    let Total = 0;
+    lastRoundPrices.forEach(a => Total += a);
+
+    return Math.round(Total / lastRoundPrices.length);
+}
+
 
 function StartMarket() {
 
@@ -95,7 +103,8 @@ function StartMarket() {
         Sellers = e.data.Sellers;
         Buyers = e.data.Buyers;
         Transactions = e.data.Transactions;
-
+        lastRoundPrices = e.data.lastRoundPrices;
+        console.log(lastRoundPrices)
         DisplayOutput();
         OutputDiv.style.visibility = "visible";
         RunSimulationBtn.style.visibility = "visible";

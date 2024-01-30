@@ -29,7 +29,7 @@ function DisplayOutput() {
     StatsTbody.innerHTML = `
         <tr>
             <td>${numberWithCommas(Transactions)}</td>
-            <td>${numberWithCommas(GetMedianPrice())}</td>
+            <td>${numberWithCommas(GetLastRoundAveragePrice())}</td>
         </tr>
     `;
 
