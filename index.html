@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand & Supply - Simulator</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body style="background-color: black; color:bisque">
+
+    <h2 style="text-align: center;">Demand & Supply</h2>
+    <h3 style="text-align: center;">Simulating a small Microeconomic Environment</h3>
+
+    <br>
+    <div id="ControlsDiv" style="margin-left: 2%;">
+        <table class="table" style="width: 90%; color: bisque;">
+            <tr>
+                <td>Number of Buyers:</td>
+                <td>
+                    <input id="NoOfBuyersInput" type="number" value="50" class="form-control"
+                        style="background-color: black; width: 70%;">
+                </td>
+            </tr>
+            <tr>
+                <td>Number of Sellers:</td>
+                <td>
+                    <input id="NoOfSellersInput" type="number" value="50" class="form-control"
+                        style="background-color: black; width: 70%;">
+                </td>
+            </tr>
+            <tr>
+                <td>Rounds of Trading:</td>
+                <td>
+                    <input id="RoundsOfTradingInput" type="number" value="1000" class="form-control"
+                        style="background-color: black; width: 70%;">
+                </td>
+            </tr>
+            <tr>
+                <td>How buyer chooses seller:</td>
+                <td>
+                    <select name="HowBuyerChoosesSellerInput" id="HowBuyerChoosesSellerInput" class="form-control"
+                        style="background-color: black; width: 70%;">
+                        <option value="CheapestPrice">Cheapest price</option>
+                        <option value="Randomly">Randomly</option>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+        <a href="#OutputDiv" id="RunSimulationBtn" class="btn" style="color:bisque">Run Simulation</a>
+    </div>
+    <br><br>
+
+
+    <!-- Output display area -->
+    <div id="OutputDiv" style="visibility: hidden; margin-left: 6%;">
+
+        <h3 id="OutputDivStatus">Trading...</h3>
+        <div id="OutputDivData" style="visibility: hidden;">
+            <h5>Meta:</h5>
+
+            <div style="overflow-x: auto;">
+                <table class="table" style="color: white; width: 90%;">
+                    <tr style="color:bisque">
+                        <th>Rounds of Trading</th>
+                        <th>Number of Buyers</th>
+                        <th>Number of Sellers</th>
+                        <th>How Buyer chooses a Seller</th>
+                    </tr>
+                    <tbody id="MetaTbody"></tbody>
+                </table>
+            </div>
+            <br>
+
+            <div style="overflow-x: auto;">
+                <table class="table" style="color: white; width: 90%;">
+                    <tr style="color:bisque">
+                        <th>Number of Transactions</th>
+                        <th>Overall Profit Margin</th>
+                        <th>Average First Price</th>
+                        <th>Median First Price</th>
+                        <th>Average Final Price</th>
+                        <th>Median Final Price</th>
+                    </tr>
+                    <tbody id="StatsTbody"></tbody>
+                </table>
+            </div>
+            <br><br>
+
+            
+            <h5>Sellers:</h5>
+
+            <small style="color: white"><i>Sort By:</i></small>
+            <select name="SellersDisplayFilter" id="SellersDisplayFilter" class="form-control"
+                style="width:auto; background-color:black; color: white">
+                <option value="MinimumAcceptable">Production Cost</option>
+                <option value="FirstPrice">First Price</option>
+                <option value="Price">Final Price</option>
+                <option value="SummedPrices">Average Price</option>
+                <option value="Transactions">Transactions Accepted</option>
+                <option value="Revenue">Revenue</option>
+                <option value="Profit">Profit</option>
+            </select>
+
+            <!-- Canvas for Graph -->
+            <canvas id="SellersChartCanvas" width="auto" height="auto"></canvas>
+
+            <div style="overflow-x: auto;">
+                <table class="table" style="width: 90%; color: white;">
+                    <tr style="color:bisque">
+                        <td>Position</td>
+                        <th>Production Cost</td>
+                        <th>First Price</th>
+                        <th>Final Price</th>
+                        <th>Average Price</th>
+                        <th>Transactions Accepted (%)</th>
+                        <th>Revenue</th>
+                        <th>Profit</th>
+                    </tr>
+                    <tbody id="SellersTbody"></tbody>
+                </table>
+            </div>
+
+            <br>
+            <h5>Buyers:</h5>
+
+            <small style="color: white"><i>Sort By:</i></small>
+            <select name="BuyersDisplayFilter" id="BuyersDisplayFilter" class="form-control"
+                style="width:auto; background-color:black; color: white;">
+                <option value="MaximumPayable">Maximum Can Pay</option>
+                <option value="Transactions">Transactions Accepted</option>
+                <option value="TotalSpent">Total Spent</option>
+            </select>
+
+            <div style="overflow-x: auto;">
+                <table class="table" style="width: 90%; color: white;">
+                    <tr style="color:bisque">
+                        <th>Position</th>
+                        <th>Maximum can Pay</th>
+                        <th>Transactions Accepted (%)</th>
+                        <th>Total Spent</th>
+                    </tr>
+                    <tbody id="BuyersTbody"></tbody>
+                </table>
+            </div>
+            <br>
+
+        </div>
+
+    </div>
+
+</body>
+
+<script src="Globals.js"></script>
+<script src="./Simulator/Market.js"></script>
+
+<script src="app.js"></script>
+
+</html>
