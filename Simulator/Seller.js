@@ -13,7 +13,7 @@ class Seller {
 
     // how much the seller will adjust price depending on how the market is
     PriceAdjustmentFactor = {
-        Up: (1.01),
+        Up: (1.005),
         Down: (0.95)
     }
 
